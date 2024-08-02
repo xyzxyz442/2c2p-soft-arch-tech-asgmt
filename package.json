@@ -1,0 +1,26 @@
+{
+  "name": "soft-arch-tech-asgmt",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "lint-staged": "lint-staged",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write --list-different .",
+    "prepare": "husky && pnpm run prepare:commit-msg && pnpm run prepare:pre-commit && pnpm run prepare:prepare-commit-msg",
+    "prepare:commit-msg": "echo 'npx --no -- commitlint --edit $1' > .husky/commit-msg",
+    "prepare:pre-commit": "rm -f .husky/pre-commit && pnpm run prepare:pre-commit:lint-staged",
+    "prepare:pre-commit:lint-staged": "echo 'pnpm run lint-staged --concurrent false' >> .husky/pre-commit",
+    "prepare:prepare-commit-msg": "echo 'exec < /dev/tty && npx cz --hook || true' > .husky/prepare-commit-msg",
+    "commit": "cz"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@commitlint/types": "^19.0.3",
+    "commitizen": "^4.3.0",
+    "husky": "^9.1.4",
+    "lint-staged": "^15.2.7",
+    "prettier": "^3.3.3"
+  }
+}
