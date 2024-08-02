@@ -3,5 +3,8 @@
     "**/bin": true,
     "**/obj": true
   },
-  "dotnet.defaultSolution": "Termcard168.Services.sln"
+  "dotnet.defaultSolution": "2C2P.Services.sln",
+  "[csharp]": {
+    "editor.defaultFormatter": "ms-dotnettools.csharp"
+  }
 }

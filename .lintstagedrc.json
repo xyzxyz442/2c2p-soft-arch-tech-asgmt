@@ -1,4 +1,4 @@
 {
-  "*.cs": ["prettier --write", "dotnet format --include"],
+  "*.cs": ["dotnet format --include"],
   "*.{json,md,yml}": ["prettier --write"]
 }
