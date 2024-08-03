@@ -6,7 +6,7 @@ public class Transaction : Entity<long, string>
 {
     public string TransactionId { get; set; }
 
-    public string Currency { get; set; }
+    public decimal Currency { get; set; }
 
     // public TransctionStatus Status { get; set; }
 
