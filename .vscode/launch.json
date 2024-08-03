@@ -8,11 +8,17 @@
       "type": "DotNetAutoAttach",
       "request": "launch",
       "name": ".NET Core Watch",
-      "project": "${workspaceFolder}/src/2C2P.Services/Platform/Platform.API/Platform.API.csproj",
+      "project": "${workspaceFolder}/src/Dev2C2P.Services/Platform/Platform.API/Platform.API.csproj",
       "args": [],
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    {
+      "name": ".NET Core Attach",
+      "type": "coreclr",
+      "request": "attach",
+      "processName": "Platform.API"
     }
   ]
 }
