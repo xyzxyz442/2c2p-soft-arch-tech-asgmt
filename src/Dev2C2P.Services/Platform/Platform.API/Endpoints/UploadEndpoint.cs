@@ -87,6 +87,9 @@ public class UploadEndpoint : EndpointBaseAsync.WithoutRequest.WithResult<IActio
             if (hasContentDispositionHeader && contentDisposition.DispositionType.Equals("form-data") &&
                     !string.IsNullOrEmpty(contentDisposition.FileName.Value))
             {
+                var validationResult = await ValidateMultiPartSection(section, contentDisposition);
+                if (validationResult.IsError) return validationResult;
+
                 using (var stream = System.IO.File.Create(tmpFilePath))
                 {
                     await section.Body.CopyToAsync(stream);
@@ -101,5 +104,32 @@ public class UploadEndpoint : EndpointBaseAsync.WithoutRequest.WithResult<IActio
         {
             return Error.Failure(ex.Message);
         }
+    }
+
+    private async Task<ErrorOr<bool>> ValidateMultiPartSection(
+        MultipartSection section,
+        ContentDispositionHeaderValue contentDispositionHeaderValue)
+    {
+        // TODO: should change this to configuration
+        var maxFileSize = 1 * 1024 * 1024; // 1MB
+
+        var sectionLength = section.Body.Length;
+
+        // check file is size must not exceed 1MB
+        if (sectionLength > maxFileSize)
+        {
+            return Error.Validation("UploadValidation", "The file is too large.");
+        }
+
+        // check file type
+        var fileName = contentDispositionHeaderValue.FileName.Value;
+        var fileExtension = Path.GetExtension(fileName);
+
+        if (fileExtension != ".xml" && fileExtension != ".csv")
+        {
+            return Error.Validation("UploadValidation", "Invalid file type. Only XML and CSV files are allowed.");
+        }
+
+        return true;
     }
 }
