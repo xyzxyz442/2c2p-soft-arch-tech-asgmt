@@ -51,15 +51,19 @@ public class UploadEndpoint : EndpointBaseAsync.WithoutRequest.WithResult<IActio
                 !MediaTypeHeaderValue.TryParse(request.ContentType, out var mediaTypeHeader) ||
                 string.IsNullOrEmpty(mediaTypeHeader.Boundary.Value))
         {
-            // TODO: revise this to handle error response
-            return new UnsupportedMediaTypeResult();
+            return BadRequest(new
+            {
+                errors = new[] {
+                    new { code = "UploadValidation", message = "Invalid content type, multipart/form-data must contain boundary." }
+                }
+            });
         }
 
         var result = await DoHandleAsync(request, mediaTypeHeader);
 
         return result.Match<IActionResult>(
             success => Ok(new { data = success }),
-            errors => BadRequest(new { errors })
+            errors => BadRequest(new { errors = errors.Select(e => new { code = e.Code, message = e.Description }) })
         );
     }
 
