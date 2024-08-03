@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace Dev2C2P.Services.Platform.Domain.Abstractions;
 
@@ -25,14 +26,14 @@ public abstract class Entity<TId, TUniqueId> : IIdentifiable<TId>
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
-        if (obj == null || obj is not Entity<TUniqueId>)
+        if (obj == null || obj is not Entity<TId, TUniqueId>)
             return false;
 
         // Same instances must be considered as equal
         if (ReferenceEquals(this, obj))
             return true;
 
-        var other = (Entity<TUniqueId>)obj;
+        var other = (Entity<TId, TUniqueId>)obj;
 
         // Must have a IS-A relation of types or must be same type
         var typeOfThis = GetType();
@@ -52,7 +53,7 @@ public abstract class Entity<TId, TUniqueId> : IIdentifiable<TId>
     }
 
     protected bool DoEquals<T>(T other)
-        where T : Entity<TUniqueId>
+        where T : Entity<TId, TUniqueId>
     {
         return Id.Equals(other.Id);
     }

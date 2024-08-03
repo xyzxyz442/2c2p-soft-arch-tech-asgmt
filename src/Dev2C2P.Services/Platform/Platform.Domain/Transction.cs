@@ -2,7 +2,7 @@ using Dev2C2P.Services.Platform.Domain.Abstractions;
 
 namespace Dev2C2P.Services.Platform.Domain;
 
-public class Transaction : Entity<long>
+public class Transaction : Entity<long, string>
 {
     public string TransactionId { get; set; }
 
@@ -19,6 +19,16 @@ public class Transaction : Entity<long>
         TransactionId = transactionId;
     }
 
+    public override string GetId()
+    {
+        return TransactionId;
+    }
+
+    public override void SetId(string uniqueId)
+    {
+        TransactionId = uniqueId;
+    }
+
     public static Transaction Create(
         string transactionId
     )
@@ -27,4 +37,5 @@ public class Transaction : Entity<long>
             transactionId: transactionId
         );
     }
+
 }
