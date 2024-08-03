@@ -5,11 +5,11 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1EE3296C-698A-4C18-89CA-FAB98D6A460D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2C2P.Services", "2C2P.Services", "{CE4AA48B-840E-4D33-B10D-CBAA0087AB90}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dev2C2P.Services", "Dev2C2P.Services", "{CE4AA48B-840E-4D33-B10D-CBAA0087AB90}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platform", "Platform", "{7B90E1EF-FD90-42CB-8C44-FE8007F90786}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.API", "src\2C2P.Services\Platform\Platform.API\Platform.API.csproj", "{04872D1F-B77F-4C9A-9634-787800528A36}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.API", "src\Dev2C2P.Services\Platform\Platform.API\Platform.API.csproj", "{04872D1F-B77F-4C9A-9634-787800528A36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
