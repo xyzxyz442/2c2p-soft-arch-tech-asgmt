@@ -814,4 +814,7 @@ $RECYCLE.BIN/
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 
+.tmp
+tmp
+
 # End of https://www.toptal.com/developers/gitignore/api/node,macos,windows,visualstudio,visualstudiocode,linux,dotenv,sonarqube,csharp
