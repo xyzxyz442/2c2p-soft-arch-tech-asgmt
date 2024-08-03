@@ -1,3 +1,4 @@
+using System.Xml;
 using ErrorOr;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -95,7 +96,11 @@ public class UploadEndpoint : EndpointBaseAsync.WithoutRequest.WithResult<IActio
                     await section.Body.CopyToAsync(stream);
                 }
 
-                // TODO: reading file and parse data here
+                var parseResult = await ParseFile(contentDisposition.FileName.Value, tmpFilePath);
+
+                if (System.IO.File.Exists(tmpFilePath)) System.IO.File.Delete(tmpFilePath);
+
+                if (parseResult.IsError) return parseResult;
             }
 
             return true;
@@ -131,5 +136,57 @@ public class UploadEndpoint : EndpointBaseAsync.WithoutRequest.WithResult<IActio
         }
 
         return true;
+    }
+
+    private async Task<ErrorOr<bool>> ParseFile(string originalFileName, string filePath)
+    {
+        var fileExtension = Path.GetExtension(originalFileName);
+        if (fileExtension == ".xml")
+        {
+            return await ParseXmlFile(filePath);
+        }
+        else if (fileExtension == ".csv")
+        {
+            return await ParseCsvFile(filePath);
+        }
+        else
+        {
+            return Error.Failure("UploadParseError", "Invalid file type.");
+        }
+    }
+
+    private async Task<ErrorOr<bool>> ParseXmlFile(string filePath)
+    {
+        try
+        {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load(filePath);
+
+            // TODO: serialize xml to DTO here
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return Error.Failure("UploadXmlParseError", ex.Message);
+        }
+    }
+
+    private async Task<ErrorOr<bool>> ParseCsvFile(string filePath)
+    {
+        try
+        {
+            using (var sr = System.IO.File.OpenText(filePath))
+            {
+                // TODO: parse csv file to DTO here
+                // TODO: serialize csv to DTO here
+            }
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return Error.Failure("UploadCsvParseError", ex.Message);
+        }
     }
 }
