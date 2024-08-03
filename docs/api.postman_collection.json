@@ -18,20 +18,20 @@
               "key": "file",
               "description": "actual file is in /projectRootPath/requests/upload/test.csv",
               "type": "file",
-              "src": "/Users/xyzxyz442/Work/Projects/2c2p/src/soft-arch-tech-asgmt/requests/upload/test.csv"
+              "src": ""
             },
             {
               "key": "file",
               "description": "actual file is in /projectRootPath/requests/upload/test.xml",
               "type": "file",
-              "src": "/Users/xyzxyz442/Work/Projects/2c2p/src/soft-arch-tech-asgmt/requests/upload/test.xml",
+              "src": "",
               "disabled": true
             },
             {
               "key": "file",
               "description": "actual file is in /projectRootPath/requests/upload/test.jpeg",
               "type": "file",
-              "src": "/Users/xyzxyz442/Work/Projects/2c2p/src/soft-arch-tech-asgmt/requests/upload/test.jpeg",
+              "src": "",
               "disabled": true
             }
           ]

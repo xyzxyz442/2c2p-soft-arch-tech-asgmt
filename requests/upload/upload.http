@@ -4,7 +4,7 @@
 POST {{host}}/upload HTTP/1.1
 Content-Type: multipart/form-data; boundary=boundary
 
-----boundary----
+----boundary
 Content-Disposition: form-data; name="file"; filename="test.csv"
 Content-Type: text/csv
 
@@ -20,4 +20,15 @@ Content-Disposition: form-data; name="file"; filename="test.xml"
 Content-Type: text/xml
 
 < ./test.xml
+----boundary----
+
+### upload file (image) - failed case
+POST {{host}}/upload HTTP/1.1
+Content-Type: multipart/form-data; boundary=----boundary
+
+----boundary
+Content-Disposition: form-data; name="file"; filename="test.jpg"
+Content-Type: image/jpeg
+
+< ./test.jpg
 ----boundary----
