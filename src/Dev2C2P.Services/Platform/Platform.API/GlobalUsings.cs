@@ -1,3 +1,4 @@
+global using Ardalis.ApiEndpoints;
 global using Autofac;
 global using Autofac.Extensions.DependencyInjection;
 global using HealthChecks.UI.Client;
@@ -12,6 +13,7 @@ global using Microsoft.Extensions.Diagnostics.HealthChecks;
 global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Logging;
 global using Serilog;
+global using Swashbuckle.AspNetCore.Annotations;
 global using System;
 global using System.Collections.Generic;
 global using System.Globalization;
