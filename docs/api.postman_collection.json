@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "8b653f9f-4c31-4a2f-a052-6c462e1d2ebc",
+    "_postman_id": "0505a73f-173e-41c5-8ab0-fcff2f509845",
     "name": "api",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "16465"
@@ -18,30 +18,68 @@
               "key": "file",
               "description": "actual file is in /projectRootPath/requests/upload/test.csv",
               "type": "file",
-              "src": ""
+              "src": [],
+              "disabled": true
             },
             {
               "key": "file",
               "description": "actual file is in /projectRootPath/requests/upload/test.xml",
               "type": "file",
-              "src": "",
+              "src": [],
               "disabled": true
             },
             {
               "key": "file",
               "description": "actual file is in /projectRootPath/requests/upload/test.jpeg",
               "type": "file",
-              "src": "",
+              "src": [],
               "disabled": true
             }
           ]
         },
         "url": {
-          "raw": "https://localhost:5101/upload",
-          "protocol": "https",
+          "raw": "http://localhost:5001/upload",
+          "protocol": "http",
           "host": ["localhost"],
-          "port": "5101",
+          "port": "5001",
           "path": ["upload"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get transactions",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5001/transactions",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5001",
+          "path": ["transactions"],
+          "query": [
+            {
+              "key": "filter[currency]",
+              "value": "USD",
+              "disabled": true
+            },
+            {
+              "key": "filter[from]",
+              "value": "2019-01-24 15:00:00",
+              "disabled": true
+            },
+            {
+              "key": "filter[to]",
+              "value": "2019-01-24 17:00:00",
+              "disabled": true
+            },
+            {
+              "key": "filter[status]",
+              "value": "R",
+              "disabled": true
+            }
+          ]
         }
       },
       "response": []
