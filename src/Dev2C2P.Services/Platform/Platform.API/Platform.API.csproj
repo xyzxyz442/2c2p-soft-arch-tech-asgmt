@@ -28,12 +28,14 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.7.0" />
     <PackageReference Include="CsvHelper" Version="33.0.1" />
+    <PackageReference Include="Polly" Version="8.4.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Platform.Application\Platform.Application.csproj" />
     <ProjectReference Include="..\Platform.Common\Platform.Common.csproj" />
     <ProjectReference Include="..\Platform.Contracts\Platform.Contracts.csproj" />
+    <ProjectReference Include="..\Platform.Infrastructure\Platform.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
