@@ -310,7 +310,5 @@ $RECYCLE.BIN/
 # .pnp.*
 
 # user-specific
-.npmrc
-.husky
 
 # End of https://www.toptal.com/developers/gitignore/api/node,yarn,linux,macos,react,dotenv,nextjs,windows,sonarqube,visualstudiocode

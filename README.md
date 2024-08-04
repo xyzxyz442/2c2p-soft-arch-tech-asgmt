@@ -2,6 +2,8 @@
 
 2C2P Software Architect Technical Assignment
 
+This repository includes both front-end (for testing) and backend
+
 ## Architecture
 
 See [further](docs)
