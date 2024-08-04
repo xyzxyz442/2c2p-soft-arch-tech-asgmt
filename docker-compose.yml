@@ -1,6 +1,6 @@
 services:
   platform.api:
-    image: ${DOCKER_REGISTRY-}platform
+    image: ${DOCKER_REGISTRY-}platform-api
     build:
       context: .
       dockerfile: src/Dev2C2P.Services/Platform/Platform.API/Dockerfile
@@ -13,6 +13,16 @@ services:
     volumes:
       - ~/.aspnet/https:/root/.aspnet/https:ro
       - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+
+  platform.web:
+    image: ${DOCKER_REGISTRY-}platform-web
+    build:
+      context: ./src/dev2c2p-web
+      dockerfile: Dockerfile
+    environment:
+      - API_ENDPOINT_URL=http://platform.api:5001
+    ports:
+      - '3000:3000'
 
   postgresql:
     image: 'bitnami/postgresql:12.14.0-debian-11-r1'
