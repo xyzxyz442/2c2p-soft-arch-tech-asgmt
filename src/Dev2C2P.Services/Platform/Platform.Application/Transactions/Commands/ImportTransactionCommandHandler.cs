@@ -23,8 +23,36 @@ public class ImportTrasactionCommandHandler
 
         foreach (var data in request.Datas)
         {
-            // TODO: import transaction data here
             Logger.LogDebug("Importing transaction data: {data}", data);
+
+            if (request.Type == ImportTransactionFileType.Csv)
+            {
+                // var transaction = Transaction.Create(
+                //     data.Id,
+                //     data.At,
+                //     data.Amount,
+                //     data.CurrencyCode,
+                //     data.Status
+                // );
+
+                // TODO: actual call to service/repository to create transaction
+
+                // if (result.IsFailure)
+                // {
+                //     Logger.LogError("Failed to create transaction: {Id}, error: {Error}", data.Id, result.Error);
+                //     return new Result<bool>(false);
+                // }
+
+            }
+            else if (request.Type == ImportTransactionFileType.Xml)
+            {
+                // TODO: actual call to service/repository to create transaction
+            }
+            else
+            {
+                Logger.LogError("Invalid file type: {Type}, id: {TransactionId}", request.Type, data.Id);
+                return new Result<bool>(false);
+            }
         }
 
         return new Result<bool>(true);

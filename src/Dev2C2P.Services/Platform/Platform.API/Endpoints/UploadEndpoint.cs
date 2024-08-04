@@ -162,29 +162,33 @@ public class UploadEndpoint
         var fileExtension = Path.GetExtension(originalFileName);
         if (fileExtension == ".xml")
         {
+            commandType = ImportTransactionFileType.Xml;
+
             var result = ParseXmlFile(filePath);
             if (result.IsError) return result.FirstError;
 
             dtos.AddRange(result.Value.Select(dto => new ImportTransactionDto
             {
-                TransactionId = dto.TransactionId,
+                Id = dto.TransactionId,
                 Amount = dto.PaymentDetails.Amount,
                 CurrencyCode = dto.PaymentDetails.CurrencyCode,
-                TransactionDate = dto.TransactionDate,
+                At = dto.TransactionDate,
                 Status = dto.Status
             }));
         }
         else if (fileExtension == ".csv")
         {
+            commandType = ImportTransactionFileType.Csv;
+
             var result = await ParseCsvFileAsync(filePath);
             if (result.IsError) return result.FirstError;
 
             dtos.AddRange(result.Value.Select(dto => new ImportTransactionDto
             {
-                TransactionId = dto.TransactionId,
+                Id = dto.TransactionId,
                 Amount = dto.Amount,
                 CurrencyCode = dto.CurrencyCode,
-                TransactionDate = dto.TransactionDate,
+                At = dto.TransactionDate,
                 Status = dto.Status
             }));
         }
