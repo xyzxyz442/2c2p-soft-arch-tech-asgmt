@@ -1,4 +1,4 @@
-@host=https://localhost:5101
+@host=http://localhost:5001
 
 ### upload file (csv)
 POST {{host}}/upload HTTP/1.1

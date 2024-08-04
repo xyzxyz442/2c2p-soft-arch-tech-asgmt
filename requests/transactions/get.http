@@ -1,0 +1,13 @@
+@host=http://localhost:5001
+
+### get all transactions
+GET {{host}}/transactions HTTP/1.1
+
+### get transaction by currency
+GET {{host}}/transactions?filter[currency]=USD HTTP/1.1
+
+### get transaction by date
+GET {{host}}/transactions?filter[from]=2019-01-24 15:00:00&filter[to]=2019-01-24 17:00:00 HTTP/1.1
+
+### get transaction by status
+GET {{host}}/transactions?filter[status]=D HTTP/1.1
