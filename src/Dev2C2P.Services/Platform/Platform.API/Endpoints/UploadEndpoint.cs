@@ -156,7 +156,7 @@ public class UploadEndpoint
 
     private async Task<ErrorOr<bool>> ImportFileAsync(string originalFileName, string filePath)
     {
-        var dtos = new List<ImportTransactionDto>();
+        var dtos = new List<ImportTransactionInput>();
         var commandType = ImportTransactionFileType.None;
 
         var fileExtension = Path.GetExtension(originalFileName);
@@ -167,7 +167,7 @@ public class UploadEndpoint
             var result = ParseXmlFile(filePath);
             if (result.IsError) return result.FirstError;
 
-            dtos.AddRange(result.Value.Select(dto => new ImportTransactionDto
+            dtos.AddRange(result.Value.Select(dto => new ImportTransactionInput
             {
                 Id = dto.TransactionId,
                 Amount = dto.PaymentDetails.Amount,
@@ -183,7 +183,7 @@ public class UploadEndpoint
             var result = await ParseCsvFileAsync(filePath);
             if (result.IsError) return result.FirstError;
 
-            dtos.AddRange(result.Value.Select(dto => new ImportTransactionDto
+            dtos.AddRange(result.Value.Select(dto => new ImportTransactionInput
             {
                 Id = dto.TransactionId,
                 Amount = dto.Amount,

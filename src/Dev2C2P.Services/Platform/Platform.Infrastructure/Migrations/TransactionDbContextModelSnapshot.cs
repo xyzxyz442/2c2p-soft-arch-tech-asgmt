@@ -39,9 +39,10 @@ namespace Dev2C2P.Services.Platform.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<decimal>("Currency")
+                    b.Property<string>("Currency")
+                        .IsRequired()
                         .HasMaxLength(3)
-                        .HasColumnType("numeric");
+                        .HasColumnType("character varying(3)");
 
                     b.Property<string>("Status")
                         .IsRequired()

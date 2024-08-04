@@ -20,7 +20,7 @@ namespace Dev2C2P.Services.Platform.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     TransactionId = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     At = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Currency = table.Column<decimal>(type: "numeric", maxLength: 3, nullable: false),
+                    Currency = table.Column<string>(type: "character varying(3)", maxLength: 3, nullable: false),
                     Status = table.Column<string>(type: "character varying(1)", maxLength: 1, nullable: false),
                     Amount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
