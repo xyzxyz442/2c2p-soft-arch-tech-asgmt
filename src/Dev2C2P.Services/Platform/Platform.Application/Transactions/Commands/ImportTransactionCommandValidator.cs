@@ -17,15 +17,23 @@ public class ImportTransactionCommandValidator
                 validator =>
                 {
                     validator.RuleFor(x => x.Id)
+                        .NotNull()
                         .NotEmpty()
                         .MaximumLength(50);
+                    validator.RuleFor(x => x.Amount)
+                        .NotNull()
+                        .NotEmpty();
                     validator.RuleFor(x => x.At)
+                        .NotNull()
                         .NotEmpty()
                         .Must(x => ValidateDateTime(x, "dd/MM/yyyy HH:mm:ss"));
                     validator.RuleFor(x => x.CurrencyCode)
+                        .NotNull()
+                        .NotEmpty()
                         .Must(x => ISO._4217.CurrencyCodesResolver.Codes
                             .Any(y => y.Code == x.ToUpperInvariant()));
                     validator.RuleFor(x => x.Status)
+                        .NotNull()
                         .NotEmpty()
                         .Must(x => new[] { "Approved", "Failed", "Finished" }.Contains(x));
                 }
@@ -38,15 +46,22 @@ public class ImportTransactionCommandValidator
                 validator =>
                 {
                     validator.RuleFor(x => x.Id)
+                        .NotNull()
                         .NotEmpty()
                         .MaximumLength(50);
+                    validator.RuleFor(x => x.Amount)
+                        .NotNull()
+                        .NotEmpty();
                     validator.RuleFor(x => x.At)
+                        .NotNull()
                         .NotEmpty()
                         .Must(x => ValidateDateTime(x, "yyyy-MM-ddTHH:mm:ss"));
                     validator.RuleFor(x => x.CurrencyCode)
+                        .NotNull()
+                        .NotEmpty()
                         .Must(x => ISO._4217.CurrencyCodesResolver.Codes
                             .Any(y => y.Code == x.ToUpperInvariant()));
-                    validator.RuleFor(x => x.Status).NotEmpty().Must(x => new[] { "Approved", "Rejected", "Done" }.Contains(x));
+                    validator.RuleFor(x => x.Status).NotNull().NotEmpty().Must(x => new[] { "Approved", "Rejected", "Done" }.Contains(x));
                 }
             );
         });

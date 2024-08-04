@@ -9,11 +9,11 @@ public record ImportTransactionCommand
 {
     public ImportTransactionFileType Type { get; init; }
 
-    public IEnumerable<ImportTransactionDto> Datas { get; init; }
+    public IEnumerable<ImportTransactionInput> Datas { get; init; }
 
     public ImportTransactionCommand(
         ImportTransactionFileType type,
-        IEnumerable<ImportTransactionDto> datas)
+        IEnumerable<ImportTransactionInput> datas)
     {
         Type = type;
         Datas = datas;
