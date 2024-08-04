@@ -26,40 +26,11 @@ public class GetTransactionsQueryHandler
     {
         var dtos = new List<TransactionDto>();
 
-        DateTime? from = null;
-        DateTime? to = null;
-        string? currencyCode = null;
-        string? status = null;
-
         Expression<Func<Transaction, bool>> filter = e => true;
 
-        if (request.Currency is not null)
-        {
-            currencyCode = ISO._4217.CurrencyCodesResolver.Codes.FirstOrDefault(x => x.Code == request.Currency)?.Code;
-
-            filter = e => e.Currency == currencyCode;
-        }
-
-        if (request.From is not null || request.From == string.Empty)
-        {
-            from = DateTime.Parse(request.From);
-
-            filter = CombineFilters(filter, e => e.At >= from);
-        }
-
-        if (request.To is not null || request.To == string.Empty)
-        {
-            to = DateTime.Parse(request.To);
-
-            filter = CombineFilters(filter, e => e.At <= to);
-        }
-
-        if ((request.Status is not null || request.Status == string.Empty) && new[] { "A", "R", "D" }.Contains(request.Status))
-        {
-            status = request.Status;
-
-            filter = CombineFilters(filter, e => e.Status == status);
-        }
+        var filterResult = BuildFilters(request, filter);
+        if (filterResult.IsError)
+            return filterResult.FirstError;
 
         var entities = await _service.GetAsync(
             filter,
@@ -82,6 +53,55 @@ public class GetTransactionsQueryHandler
     protected override string GetLogPrefix()
     {
         return nameof(GetTransactionsQueryHandler);
+    }
+
+    private ErrorOr<Expression<Func<Transaction, bool>>> BuildFilters(
+        GetTransactionsQuery request,
+        Expression<Func<Transaction, bool>> filter
+    )
+    {
+        try
+        {
+            DateTime? from = null;
+            DateTime? to = null;
+            string? currencyCode = null;
+            string? status = null;
+
+            if (request.Currency is not null)
+            {
+                currencyCode = ISO._4217.CurrencyCodesResolver.Codes.FirstOrDefault(x => x.Code == request.Currency)?.Code;
+
+                filter = e => e.Currency == currencyCode;
+            }
+
+            if (request.From is not null || request.From == string.Empty)
+            {
+                from = DateTime.Parse(request.From);
+
+                filter = CombineFilters(filter, e => e.At >= from);
+            }
+
+            if (request.To is not null || request.To == string.Empty)
+            {
+                to = DateTime.Parse(request.To);
+
+                filter = CombineFilters(filter, e => e.At <= to);
+            }
+
+            if ((request.Status is not null || request.Status == string.Empty) && new[] { "A", "R", "D" }.Contains(request.Status))
+            {
+                status = request.Status;
+
+                filter = CombineFilters(filter, e => e.Status == status);
+            }
+
+            return filter;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+            return Error.Validation("FilterValidation", ex.Message);
+        }
     }
 
     private Expression<Func<Transaction, bool>> CombineFilters(
