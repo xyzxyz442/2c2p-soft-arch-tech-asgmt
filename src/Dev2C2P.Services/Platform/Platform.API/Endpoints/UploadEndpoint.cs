@@ -235,7 +235,7 @@ public class UploadEndpoint
         catch (Exception ex)
         {
             _logger.LogError(ex, "UploadXmlParseError");
-            return Error.Failure("UploadXmlParseError", ex.Message);
+            return Error.Failure("UploadXmlParseError", "Invalid XML file.");
         }
     }
 
@@ -276,7 +276,7 @@ public class UploadEndpoint
         catch (Exception ex)
         {
             _logger.LogError(ex, "UploadCsvParseError");
-            return Error.Failure("UploadCsvParseError", ex.Message);
+            return Error.Failure("UploadCsvParseError", "Invalid CSV file.");
         }
     }
 }
