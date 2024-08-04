@@ -31,6 +31,8 @@ dotnet ef migrations remove --context TransactionDbContext --project ../Platform
 dotnet ef database update --project ../Platform.Infrastructure/Platform.Infrastructure.csproj
 ```
 
+> > Using can ignore the error when executing the script.
+
 ## Test
 
 Include `postman` file with sample request for testing [here](docs/api.postman_collection.json)
