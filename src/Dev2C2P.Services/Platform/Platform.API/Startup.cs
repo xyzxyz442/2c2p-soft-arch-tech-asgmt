@@ -1,5 +1,6 @@
 using Dev2C2P.Services.Platform.API.Extensions;
 using Dev2C2P.Services.Platform.Application;
+using Dev2C2P.Services.Platform.Infrastructure;
 
 namespace Dev2C2P.Services.Platform.API;
 
@@ -25,7 +26,7 @@ public class Startup
             .AddCustomStorages();
 
         services.AddApplication();
-        // services.AddInfrastructure();
+        services.AddInfrastructure();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
@@ -69,7 +70,7 @@ public class Startup
     /// <param name="builder"></param>
     public void ConfigureContainer(ContainerBuilder builder)
     {
-        // builder.AddApplicationAutofac();
+        builder.AddApplicationAutofac();
         // builder.AddInfrastructureAutofac();
     }
 

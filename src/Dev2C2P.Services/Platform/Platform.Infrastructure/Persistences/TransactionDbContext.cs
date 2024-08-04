@@ -10,28 +10,26 @@ public class TransactionDbContext : EFDbContext<Transaction, long>
     public DbSet<Transaction> Transactions { get; set; }
 
     public TransactionDbContext(
-        string tableName,
         DbContextOptions<TransactionDbContext> options
     ) : base(options)
     {
-        _tableName = tableName;
+        _tableName = "transaction";
     }
 
     protected override void DoModelCreating(ModelBuilder modelBuilder)
     {
-        // TODO: check database is postgresql
-        // if (Database.IsNpgsql())
-        // {
-        //     var converter = new ValueConverter<byte[], long>(
-        //         v => BitConverter.ToInt64(v, 0),
-        //         v => BitConverter.GetBytes(v));
+        if (Database.IsNpgsql())
+        {
+            var converter = new ValueConverter<byte[], long>(
+                v => BitConverter.ToInt64(v, 0),
+                v => BitConverter.GetBytes(v));
 
-        //     modelBuilder.Entity<Transaction>()
-        //         .Property(_ => _.Version)
-        //         .HasColumnName("xmin")
-        //         .HasColumnType("xid")
-        //         .HasConversion(converter);
-        // }
+            modelBuilder.Entity<Transaction>()
+                .Property(_ => _.Version)
+                .HasColumnName("xmin")
+                .HasColumnType("xid")
+                .HasConversion(converter);
+        }
 
         modelBuilder.ApplyConfiguration(new TransactionEntityTypeConfiguration(_tableName));
     }

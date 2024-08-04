@@ -17,7 +17,41 @@ public class TransactionEntityTypeConfiguration : IEntityTypeConfiguration<Trans
         builder.ToTable(_tableName);
 
         builder.HasKey(e => new { e.Id });
+        builder.HasIndex(e => e.TransactionId)
+            .IsUnique();
 
-        // TODO: add another column here.
+        builder.Property(e => e.TransactionId)
+            .IsRequired()
+            .HasMaxLength(50);
+
+        builder.Property(e => e.Amount)
+            .IsRequired()
+            .HasColumnType("decimal(18, 2)");
+
+        builder.Property(e => e.Currency)
+            .IsRequired()
+            .HasMaxLength(3);
+
+        builder.Property(e => e.Status)
+            .IsRequired()
+            .HasMaxLength(1);
+
+        builder.Property(e => e.At)
+            .IsRequired()
+            .HasColumnType("timestamp without time zone");
+
+        // audit columns
+        builder.Property(e => e.CreatedAt)
+            .IsRequired()
+            .HasColumnType("timestamp without time zone");
+
+        builder.Property(e => e.UpdatedAt)
+            .HasColumnType("timestamp without time zone");
+
+        // system columns
+        builder.Property(e => e.Version)
+            .IsRowVersion()
+            .IsRequired()
+            .ValueGeneratedOnAddOrUpdate();
     }
 }
