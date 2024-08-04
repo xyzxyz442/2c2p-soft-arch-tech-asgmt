@@ -28,10 +28,8 @@ public abstract class RequestHandlerBase<TRequest, TResponseResult>
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, "{LogPrefix}: handle {Type}.", GetLogPrefix(), typeof(TRequest).Name);
-
-
-            return Error.Failure("MediatorHandleException", GetDefautErrorMessage());
+            Logger.LogError(ex, "{LogPrefix}: {Error}", GetLogPrefix(), GetDefautErrorMessage());
+            return Error.Failure("Exception", GetDefautErrorMessage());
         }
     }
 

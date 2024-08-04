@@ -1,5 +1,5 @@
+using Dev2C2P.Services.Platform.Application.Behaviors;
 using Dev2C2P.Services.Platform.Application.Transactions;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Dev2C2P.Services.Platform.Application;
 
@@ -9,6 +9,13 @@ public static class DependencyInjection
     {
         // Add MediatR
         services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
+
+        // Add Validation
+        services.AddScoped(
+            typeof(IPipelineBehavior<,>),
+            typeof(ValidationBehavior<,>));
+
+        services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
 
         return services;
     }

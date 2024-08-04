@@ -17,6 +17,7 @@
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="MediatR" Version="12.4.0" />
     <PackageReference Include="ErrorOr" Version="2.0.1" />
+    <PackageReference Include="ISO.4217.CurrencyCodes" Version="1.0.10" />
   </ItemGroup>
 
 </Project>

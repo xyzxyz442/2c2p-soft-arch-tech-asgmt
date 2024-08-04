@@ -34,7 +34,8 @@ public class DisableFormValueModelBindingAttribute : Attribute, IResourceFilter
 [Route("upload")]
 [DisableFormValueModelBinding]
 [ApiExplorerSettings(GroupName = "upload")]
-public class UploadEndpoint : EndpointBaseAsync.WithoutRequest.WithResult<IActionResult>
+public class UploadEndpoint
+    : EndpointBaseAsync.WithoutRequest.WithResult<IActionResult>
 {
     private readonly ILogger<UploadEndpoint> _logger;
     private readonly IOptionsMonitor<ApplicationSettings> _options;
@@ -155,35 +156,39 @@ public class UploadEndpoint : EndpointBaseAsync.WithoutRequest.WithResult<IActio
 
     private async Task<ErrorOr<bool>> ImportFileAsync(string originalFileName, string filePath)
     {
-        var dtos = new List<ImportTransactionDto>();
+        var dtos = new List<ImportTransactionInput>();
         var commandType = ImportTransactionFileType.None;
 
         var fileExtension = Path.GetExtension(originalFileName);
         if (fileExtension == ".xml")
         {
+            commandType = ImportTransactionFileType.Xml;
+
             var result = ParseXmlFile(filePath);
             if (result.IsError) return result.FirstError;
 
-            dtos.AddRange(result.Value.Select(dto => new ImportTransactionDto
+            dtos.AddRange(result.Value.Select(dto => new ImportTransactionInput
             {
-                TransactionId = dto.TransactionId,
+                Id = dto.TransactionId,
                 Amount = dto.PaymentDetails.Amount,
                 CurrencyCode = dto.PaymentDetails.CurrencyCode,
-                TransactionDate = dto.TransactionDate,
+                At = dto.TransactionDate,
                 Status = dto.Status
             }));
         }
         else if (fileExtension == ".csv")
         {
+            commandType = ImportTransactionFileType.Csv;
+
             var result = await ParseCsvFileAsync(filePath);
             if (result.IsError) return result.FirstError;
 
-            dtos.AddRange(result.Value.Select(dto => new ImportTransactionDto
+            dtos.AddRange(result.Value.Select(dto => new ImportTransactionInput
             {
-                TransactionId = dto.TransactionId,
+                Id = dto.TransactionId,
                 Amount = dto.Amount,
                 CurrencyCode = dto.CurrencyCode,
-                TransactionDate = dto.TransactionDate,
+                At = dto.TransactionDate,
                 Status = dto.Status
             }));
         }

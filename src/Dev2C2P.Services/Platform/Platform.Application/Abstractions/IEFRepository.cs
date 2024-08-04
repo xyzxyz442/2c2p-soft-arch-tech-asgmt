@@ -2,7 +2,7 @@ using Dev2C2P.Services.Platform.Domain.Abstractions;
 
 namespace Dev2C2P.Services.Platform.Application.Abstractions;
 
-public interface IEFRepository<TBase, TId>
+public interface IEFRepository<TBase, TId, TUniqueId>
     where TBase : class, IIdentifiable<TId>
 {
     /// <summary>
@@ -19,6 +19,15 @@ public interface IEFRepository<TBase, TId>
         Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
         int? skip = null,
         int? take = null)
+        where T : class, TBase;
+
+    /// <summary>
+    /// Asynchronously, get entity by unique id.
+    /// </summary>
+    /// <typeparam name="T">Type of entity that IS-A relation to <see cref="TBase"/> which implement <see cref="IEntity{TId}"/>.</typeparam>
+    /// <param name="uniqueId">Specific a unique id.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains an entity that match given unique key or null.</returns>
+    Task<T?> GetByUniqueIdAsync<T>(TUniqueId uniqueId)
         where T : class, TBase;
 
     /// <summary>
