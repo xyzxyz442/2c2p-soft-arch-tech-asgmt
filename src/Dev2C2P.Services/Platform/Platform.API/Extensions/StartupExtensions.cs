@@ -33,6 +33,14 @@ public static class StartupExtensions
                 .WithExposedHeaders("Content-Disposition"));
         });
 
+        services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.SuppressInferBindingSourcesForParameters = true;
+
+            // TODO: need to override ModelStateInvalidFilter to custom message format for validation error.
+            // options.SuppressModelStateInvalidFilter = true;
+        });
+
         return services;
     }
 
@@ -47,7 +55,10 @@ public static class StartupExtensions
 
     public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
     {
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(options =>
+        {
+            options.EnableAnnotations(true, true);
+        });
 
         return services;
     }

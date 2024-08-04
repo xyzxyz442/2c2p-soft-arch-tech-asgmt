@@ -1,0 +1,50 @@
+{
+  "info": {
+    "_postman_id": "8b653f9f-4c31-4a2f-a052-6c462e1d2ebc",
+    "name": "api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "16465"
+  },
+  "item": [
+    {
+      "name": "upload file",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "description": "actual file is in /projectRootPath/requests/upload/test.csv",
+              "type": "file",
+              "src": ""
+            },
+            {
+              "key": "file",
+              "description": "actual file is in /projectRootPath/requests/upload/test.xml",
+              "type": "file",
+              "src": "",
+              "disabled": true
+            },
+            {
+              "key": "file",
+              "description": "actual file is in /projectRootPath/requests/upload/test.jpeg",
+              "type": "file",
+              "src": "",
+              "disabled": true
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://localhost:5101/upload",
+          "protocol": "https",
+          "host": ["localhost"],
+          "port": "5101",
+          "path": ["upload"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
