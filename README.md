@@ -16,6 +16,16 @@ dotnet run --project src/Dev2C2P.Services/Platform/Platform.API
 dotnet watch --non-interactive --project src/Dev2C2P.Services/Platform/Platform.API
 ```
 
+For local development, use `docker-compose` to setup the environment by executing command below
+
+```bash
+# running detach mode
+docker compose up -d
+
+# force recreate
+docker compose up --force-recreate
+```
+
 ### Database
 
 Run migrations from API project
@@ -35,7 +45,7 @@ dotnet ef database update --project ../Platform.Infrastructure/Platform.Infrastr
 
 ## Test
 
-Include `postman` file with sample request for testing [here](docs/api.postman_collection.json)
+Include `postman` file with samples request for testing [here](docs/api.postman_collection.json)
 
 ## Endpoints
 
