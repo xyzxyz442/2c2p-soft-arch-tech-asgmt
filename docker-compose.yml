@@ -1,0 +1,29 @@
+services:
+  platform.api:
+    image: ${DOCKER_REGISTRY-}platform
+    build:
+      context: .
+      dockerfile: src/Dev2C2P.Services/Platform/Platform.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - DATABASE__CONNECTIONSTRING="Server=postgresql;Port=5432;Database=2c2p_soft_arch_tech_asgmt;User Id=postgres;Password=password123;"
+    ports:
+      - '5001:80'
+    volumes:
+      - ~/.aspnet/https:/root/.aspnet/https:ro
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+
+  postgresql:
+    image: 'bitnami/postgresql:12.14.0-debian-11-r1'
+    platform: linux/amd64
+    container_name: postgresql
+    ports:
+      - '5432'
+    environment:
+      - POSTGRESQL_PASSWORD=password123
+    volumes:
+      - 'postgresql:/bitnami/postgresql'
+
+volumes:
+  postgresql:
