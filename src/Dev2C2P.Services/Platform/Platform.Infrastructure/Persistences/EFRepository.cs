@@ -11,7 +11,8 @@ namespace Dev2C2P.Services.Platform.Infrastructure.Persistences;
 /// <typeparam name="TBase"></typeparam>
 /// <typeparam name="TId"></typeparam>
 /// <typeparam name="TUniqueId"></typeparam>
-public abstract class EFRepository<TDbContext, TBase, TId, TUniqueId> : IEFRepository<TBase, TId>
+public abstract class EFRepository<TDbContext, TBase, TId, TUniqueId>
+    : IEFRepository<TBase, TId, TUniqueId>
     where TDbContext : EFDbContext<TBase, TId>
     where TBase : class, IIdentifiable<TId>
     where TUniqueId : class
@@ -64,13 +65,13 @@ public abstract class EFRepository<TDbContext, TBase, TId, TUniqueId> : IEFRepos
         try
         {
             var existingEntity = await Context.Set<T>().FindAsync(entity.Id);
-            if (existingEntity != null)
+            if (existingEntity is null)
             {
-                Context.Entry(existingEntity).CurrentValues.SetValues(entity);
+                await Context.Set<T>().AddAsync(entity);
             }
             else
             {
-                await Context.Set<T>().AddAsync(entity);
+                Context.Entry(existingEntity).CurrentValues.SetValues(entity);
             }
 
             await Context.SaveChangesAsync();
@@ -82,6 +83,13 @@ public abstract class EFRepository<TDbContext, TBase, TId, TUniqueId> : IEFRepos
             Logger.LogError(ex, "Error occurred while updating entity.");
             return false;
         }
+    }
+
+
+    public virtual Task<T?> GetByUniqueIdAsync<T>(TUniqueId uniqueId)
+        where T : class, TBase
+    {
+        return GetQueryable<T>().FirstOrDefaultAsync(BuildFilterByUniqueId<T>(uniqueId));
     }
 
     protected virtual IQueryable<T> GetQueryable<T>(
@@ -137,4 +145,7 @@ public abstract class EFRepository<TDbContext, TBase, TId, TUniqueId> : IEFRepos
     {
         return Context.Set<T>();
     }
+
+    protected abstract Expression<Func<T, bool>> BuildFilterByUniqueId<T>(TUniqueId uniqueId)
+        where T : class, TBase;
 }

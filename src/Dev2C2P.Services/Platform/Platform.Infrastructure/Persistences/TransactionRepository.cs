@@ -13,4 +13,9 @@ public class TransactionRepository
         : base(dbContext, logger)
     {
     }
+
+    protected override Expression<Func<Transaction, bool>> BuildFilterByUniqueId<Transaction>(string uniqueId)
+    {
+        return (e) => e.TransactionId == uniqueId;
+    }
 }
