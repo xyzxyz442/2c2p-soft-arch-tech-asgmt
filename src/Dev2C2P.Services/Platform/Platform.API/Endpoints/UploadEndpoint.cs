@@ -34,7 +34,8 @@ public class DisableFormValueModelBindingAttribute : Attribute, IResourceFilter
 [Route("upload")]
 [DisableFormValueModelBinding]
 [ApiExplorerSettings(GroupName = "upload")]
-public class UploadEndpoint : EndpointBaseAsync.WithoutRequest.WithResult<IActionResult>
+public class UploadEndpoint
+    : EndpointBaseAsync.WithoutRequest.WithResult<IActionResult>
 {
     private readonly ILogger<UploadEndpoint> _logger;
     private readonly IOptionsMonitor<ApplicationSettings> _options;

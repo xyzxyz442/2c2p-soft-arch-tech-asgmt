@@ -7,9 +7,9 @@ namespace Dev2C2P.Services.Platform.Application.Transactions.Commands;
 public record ImportTransactionCommand
     : RequestBase<bool>
 {
-    public ImportTransactionFileType Type { get; }
+    public ImportTransactionFileType Type { get; init; }
 
-    public IEnumerable<ImportTransactionDto> Datas { get; }
+    public IEnumerable<ImportTransactionDto> Datas { get; init; }
 
     public ImportTransactionCommand(
         ImportTransactionFileType type,
