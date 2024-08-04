@@ -7,12 +7,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - DATABASE__CONNECTIONSTRING="Server=postgresql;Port=5432;Database=2c2p_soft_arch_tech_asgmt;User Id=postgres;Password=password123;"
+      - 'Database__ConnectionString=Server=postgresql;Port=5432;Database=2c2p_soft_arch_tech_asgmt;User Id=postgres;Password=password123;'
     ports:
       - '5001:80'
-    volumes:
-      - ~/.aspnet/https:/root/.aspnet/https:ro
-      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+    # volumes:
+    #   - ~/.aspnet/https:/root/.aspnet/https:ro
+    #   - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
 
   platform.web:
     image: ${DOCKER_REGISTRY-}platform-web
@@ -20,7 +20,7 @@ services:
       context: ./src/dev2c2p-web
       dockerfile: Dockerfile
     environment:
-      - API_ENDPOINT_URL=http://platform.api:5001
+      - API_ENDPOINT_URL=http://platform.api
     ports:
       - '3000:3000'
 
@@ -29,7 +29,7 @@ services:
     platform: linux/amd64
     container_name: postgresql
     ports:
-      - '5432'
+      - '35432:5432'
     environment:
       - POSTGRESQL_PASSWORD=password123
     volumes:
