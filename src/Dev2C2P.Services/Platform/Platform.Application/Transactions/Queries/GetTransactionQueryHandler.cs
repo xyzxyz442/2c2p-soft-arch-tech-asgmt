@@ -26,14 +26,12 @@ public class GetTransactionsQueryHandler
     {
         var dtos = new List<TransactionDto>();
 
-        Expression<Func<Transaction, bool>> filter = e => true;
-
-        var filterResult = BuildFilters(request, filter);
+        var filterResult = BuildFilters(request);
         if (filterResult.IsError)
             return filterResult.FirstError;
 
         var entities = await _service.GetAsync(
-            filter,
+            filterResult.Value,
             null,
             0,
             1,
@@ -55,13 +53,13 @@ public class GetTransactionsQueryHandler
         return nameof(GetTransactionsQueryHandler);
     }
 
-    private ErrorOr<Expression<Func<Transaction, bool>>> BuildFilters(
-        GetTransactionsQuery request,
-        Expression<Func<Transaction, bool>> filter
+    private ErrorOr<Expression<Func<Transaction, bool>>?> BuildFilters(
+        GetTransactionsQuery request
     )
     {
         try
         {
+            Expression<Func<Transaction, bool>>? filter = null;
             DateTime? from = null;
             DateTime? to = null;
             string? currencyCode = null;
@@ -78,21 +76,42 @@ public class GetTransactionsQueryHandler
             {
                 from = DateTime.Parse(request.From);
 
-                filter = CombineFilters(filter, e => e.At >= from);
+                if (filter is null)
+                {
+                    filter = e => e.At >= from;
+                }
+                else
+                {
+                    filter = CombineFilters(filter, e => e.At >= from);
+                }
             }
 
             if (request.To is not null || request.To == string.Empty)
             {
                 to = DateTime.Parse(request.To);
 
-                filter = CombineFilters(filter, e => e.At <= to);
+                if (filter is null)
+                {
+                    filter = e => e.At <= to;
+                }
+                else
+                {
+                    filter = CombineFilters(filter, e => e.At <= to);
+                }
             }
 
             if ((request.Status is not null || request.Status == string.Empty) && new[] { "A", "R", "D" }.Contains(request.Status))
             {
                 status = request.Status;
 
-                filter = CombineFilters(filter, e => e.Status == status);
+                if (filter is null)
+                {
+                    filter = e => e.Status == status;
+                }
+                else
+                {
+                    filter = CombineFilters(filter, e => e.Status == status);
+                }
             }
 
             return filter;
