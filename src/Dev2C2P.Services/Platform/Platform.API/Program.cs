@@ -1,5 +1,6 @@
 using System.Reflection;
 using Dev2C2P.Services.Platform.API;
+using Dev2C2P.Services.Platform.Application;
 
 // Get configuration from appsettings.json
 var configuration = GetConfiguration();

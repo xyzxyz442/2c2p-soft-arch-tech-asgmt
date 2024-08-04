@@ -1,3 +1,4 @@
+using Dev2C2P.Services.Platform.Application;
 using Microsoft.Extensions.Options;
 
 namespace Dev2C2P.Services.Platform.API.Extensions;

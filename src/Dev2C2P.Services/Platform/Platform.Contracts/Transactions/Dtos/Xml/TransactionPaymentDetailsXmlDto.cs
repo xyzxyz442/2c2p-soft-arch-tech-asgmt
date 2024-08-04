@@ -1,3 +1,5 @@
+namespace Dev2C2P.Services.Platform.Contracts.Transactions.Dtos.Xml;
+
 public record TransactionPaymentDetailsXmlDto
 {
     [XmlElement("Amount")]

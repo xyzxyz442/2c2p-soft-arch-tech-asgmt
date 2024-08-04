@@ -1,4 +1,4 @@
-namespace Dev2C2P.Services.Platform.Contracts.Xml;
+namespace Dev2C2P.Services.Platform.Contracts.Transactions.Dtos.Xml;
 
 public record TransactionXmlDto
 {
@@ -10,4 +10,7 @@ public record TransactionXmlDto
 
     [XmlElement("PaymentDetails")]
     public TransactionPaymentDetailsXmlDto PaymentDetails { get; init; } = new TransactionPaymentDetailsXmlDto();
+
+    [XmlElement("Status")]
+    public string Status { get; init; } = string.Empty;
 }

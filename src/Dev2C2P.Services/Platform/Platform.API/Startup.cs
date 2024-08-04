@@ -1,5 +1,5 @@
 using Dev2C2P.Services.Platform.API.Extensions;
-using Microsoft.Extensions.Options;
+using Dev2C2P.Services.Platform.Application;
 
 namespace Dev2C2P.Services.Platform.API;
 
@@ -24,7 +24,7 @@ public class Startup
             .AddCustomSwagger()
             .AddCustomStorages();
 
-        // services.AddApplication();
+        services.AddApplication();
         // services.AddInfrastructure();
     }
 

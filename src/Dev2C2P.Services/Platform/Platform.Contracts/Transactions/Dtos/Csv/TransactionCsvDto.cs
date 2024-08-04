@@ -1,3 +1,5 @@
+namespace Dev2C2P.Services.Platform.Contracts.Transactions.Dtos.Csv;
+
 public record TransactionCsvDto
 {
     public string TransactionId { get; init; } = string.Empty;

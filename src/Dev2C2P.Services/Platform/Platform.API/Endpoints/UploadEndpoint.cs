@@ -1,12 +1,17 @@
 using System.Xml;
 using CsvHelper;
 using CsvHelper.Configuration;
-using Dev2C2P.Services.Platform.Contracts.Xml;
+using Dev2C2P.Services.Platform.Application;
+using Dev2C2P.Services.Platform.Application.Transactions.Commands;
+using Dev2C2P.Services.Platform.Common;
+using Dev2C2P.Services.Platform.Contracts.Transactions;
+using Dev2C2P.Services.Platform.Contracts.Transactions.Dtos.Csv;
+using Dev2C2P.Services.Platform.Contracts.Transactions.Dtos.Xml;
 using ErrorOr;
+using MediatR;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 
 namespace Dev2C2P.Services.Platform.API.Endpoints;
@@ -31,16 +36,19 @@ public class DisableFormValueModelBindingAttribute : Attribute, IResourceFilter
 [ApiExplorerSettings(GroupName = "upload")]
 public class UploadEndpoint : EndpointBaseAsync.WithoutRequest.WithResult<IActionResult>
 {
-    private readonly ILogger<UploadEndpoint> logger;
-    private readonly IOptionsMonitor<ApplicationSettings> options;
+    private readonly ILogger<UploadEndpoint> _logger;
+    private readonly IOptionsMonitor<ApplicationSettings> _options;
+    private readonly IMediator _mediator;
 
     public UploadEndpoint(
         ILogger<UploadEndpoint> logger,
-        IOptionsMonitor<ApplicationSettings> options
+        IOptionsMonitor<ApplicationSettings> options,
+        IMediator mediator
     )
     {
-        this.logger = logger;
-        this.options = options;
+        _mediator = mediator;
+        _logger = logger;
+        _options = options;
     }
 
     [HttpPost]
@@ -113,7 +121,7 @@ public class UploadEndpoint : EndpointBaseAsync.WithoutRequest.WithResult<IActio
         }
         catch (BadHttpRequestException ex)
         {
-            logger.LogError(ex, "UploadError");
+            _logger.LogError(ex, "UploadError");
             return Error.Failure(ex.Message);
         }
     }
@@ -147,31 +155,51 @@ public class UploadEndpoint : EndpointBaseAsync.WithoutRequest.WithResult<IActio
 
     private async Task<ErrorOr<bool>> ImportFileAsync(string originalFileName, string filePath)
     {
+        var dtos = new List<ImportTransactionDto>();
+        var commandType = ImportTransactionFileType.None;
+
         var fileExtension = Path.GetExtension(originalFileName);
         if (fileExtension == ".xml")
         {
             var result = ParseXmlFile(filePath);
             if (result.IsError) return result.FirstError;
 
-            var dtos = result.Value;
-
-            // TODO: send command import with XML data
-            return false;
+            dtos.AddRange(result.Value.Select(dto => new ImportTransactionDto
+            {
+                TransactionId = dto.TransactionId,
+                Amount = dto.PaymentDetails.Amount,
+                CurrencyCode = dto.PaymentDetails.CurrencyCode,
+                TransactionDate = dto.TransactionDate,
+                Status = dto.Status
+            }));
         }
         else if (fileExtension == ".csv")
         {
             var result = await ParseCsvFileAsync(filePath);
             if (result.IsError) return result.FirstError;
 
-            var dtos = result.Value;
-
-            // TODO: send command import with CSV data
-            return false;
+            dtos.AddRange(result.Value.Select(dto => new ImportTransactionDto
+            {
+                TransactionId = dto.TransactionId,
+                Amount = dto.Amount,
+                CurrencyCode = dto.CurrencyCode,
+                TransactionDate = dto.TransactionDate,
+                Status = dto.Status
+            }));
         }
         else
         {
             return Error.Failure("UploadParseError", "Invalid file type.");
         }
+
+        var sendResult = await _mediator.Send(new ImportTransactionCommand(
+            commandType,
+            dtos
+        ));
+
+        if (sendResult.IsError) return sendResult.FirstError;
+
+        return true;
     }
 
     private ErrorOr<IEnumerable<TransactionXmlDto>> ParseXmlFile(string filePath)
@@ -201,7 +229,7 @@ public class UploadEndpoint : EndpointBaseAsync.WithoutRequest.WithResult<IActio
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "UploadXmlParseError");
+            _logger.LogError(ex, "UploadXmlParseError");
             return Error.Failure("UploadXmlParseError", ex.Message);
         }
     }
@@ -222,10 +250,9 @@ public class UploadEndpoint : EndpointBaseAsync.WithoutRequest.WithResult<IActio
                 };
 
                 using var csvReader = new CsvReader(sr, config);
-
                 while (await csvReader.ReadAsync())
                 {
-                    // TODO: should parse and clean to DTO to send to command
+                    // TODO: might need to handling error here (refactoring this)
                     var dto = new TransactionCsvDto
                     {
                         TransactionId = csvReader.GetField(0),
@@ -234,6 +261,8 @@ public class UploadEndpoint : EndpointBaseAsync.WithoutRequest.WithResult<IActio
                         TransactionDate = csvReader.GetField(3),
                         Status = csvReader.GetField(4)
                     };
+
+                    dtos.Add(dto);
                 }
             }
 
@@ -241,7 +270,7 @@ public class UploadEndpoint : EndpointBaseAsync.WithoutRequest.WithResult<IActio
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "UploadCsvParseError");
+            _logger.LogError(ex, "UploadCsvParseError");
             return Error.Failure("UploadCsvParseError", ex.Message);
         }
     }

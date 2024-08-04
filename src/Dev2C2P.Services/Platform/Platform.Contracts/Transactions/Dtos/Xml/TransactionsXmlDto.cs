@@ -1,4 +1,4 @@
-namespace Dev2C2P.Services.Platform.Contracts.Xml;
+namespace Dev2C2P.Services.Platform.Contracts.Transactions.Dtos.Xml;
 
 [XmlRoot("Transactions")]
 public record TransactionsXmlDto
