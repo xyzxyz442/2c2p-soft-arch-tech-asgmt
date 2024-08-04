@@ -30,4 +30,10 @@
     <PackageReference Include="CsvHelper" Version="33.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Platform.Application\Platform.Application.csproj" />
+    <ProjectReference Include="..\Platform.Common\Platform.Common.csproj" />
+    <ProjectReference Include="..\Platform.Contracts\Platform.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>
