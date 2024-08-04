@@ -2,7 +2,7 @@ using Dev2C2P.Services.Platform.Domain.Abstractions;
 
 namespace Dev2C2P.Services.Platform.Domain;
 
-public class Transaction : Entity<long, string>
+public class Transaction : Entity<long, string>, IIdentifiable<long>
 {
     public string TransactionId { get; set; }
 
