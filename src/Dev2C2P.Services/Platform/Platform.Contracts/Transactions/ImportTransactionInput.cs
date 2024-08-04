@@ -1,6 +1,6 @@
 namespace Dev2C2P.Services.Platform.Contracts.Transactions;
 
-public record ImportTransactionDto
+public record ImportTransactionInput
 {
     public string Id { get; init; } = string.Empty;
 

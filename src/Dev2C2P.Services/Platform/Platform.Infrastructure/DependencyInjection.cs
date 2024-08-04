@@ -21,7 +21,7 @@ public static class DependencyInjection
     {
         builder.RegisterAssemblyTypes(typeof(TransactionRepository).GetTypeInfo().Assembly)
             .InstancePerLifetimeScope()
-            .AsClosedTypesOf(typeof(IEFRepository<,>));
+            .AsClosedTypesOf(typeof(IEFRepository<,,>));
 
         builder.RegisterAssemblyTypes(typeof(TransactionDbContext).GetTypeInfo().Assembly)
             .InstancePerLifetimeScope()
