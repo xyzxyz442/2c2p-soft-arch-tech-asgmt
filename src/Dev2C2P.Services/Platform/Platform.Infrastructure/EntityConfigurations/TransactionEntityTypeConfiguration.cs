@@ -48,10 +48,5 @@ public class TransactionEntityTypeConfiguration : IEntityTypeConfiguration<Trans
         builder.Property(e => e.UpdatedAt)
             .HasColumnType("timestamp without time zone");
 
-        // system columns
-        builder.Property(e => e.Version)
-            .IsRowVersion()
-            .IsRequired()
-            .ValueGeneratedOnAddOrUpdate();
     }
 }

@@ -24,8 +24,7 @@ namespace Dev2C2P.Services.Platform.Infrastructure.Migrations
                     Status = table.Column<string>(type: "character varying(1)", maxLength: 1, nullable: false),
                     Amount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false)
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {

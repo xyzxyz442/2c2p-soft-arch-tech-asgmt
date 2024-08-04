@@ -18,19 +18,6 @@ public class TransactionDbContext : EFDbContext<Transaction, long>
 
     protected override void DoModelCreating(ModelBuilder modelBuilder)
     {
-        if (Database.IsNpgsql())
-        {
-            var converter = new ValueConverter<byte[], long>(
-                v => BitConverter.ToInt64(v, 0),
-                v => BitConverter.GetBytes(v));
-
-            modelBuilder.Entity<Transaction>()
-                .Property(_ => _.Version)
-                .HasColumnName("xmin")
-                .HasColumnType("xid")
-                .HasConversion(converter);
-        }
-
         modelBuilder.ApplyConfiguration(new TransactionEntityTypeConfiguration(_tableName));
     }
 }

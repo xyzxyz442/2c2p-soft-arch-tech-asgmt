@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Dev2C2P.Services.Platform.Infrastructure.Migrations
 {
     [DbContext(typeof(TransactionDbContext))]
-    [Migration("20240804115803_InitialTransactionDbContext")]
+    [Migration("20240804174457_InitialTransactionDbContext")]
     partial class InitialTransactionDbContext
     {
         /// <inheritdoc />
@@ -59,12 +59,6 @@ namespace Dev2C2P.Services.Platform.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<long>("Version")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("xid")
-                        .HasColumnName("xmin");
 
                     b.HasKey("Id");
 

@@ -19,9 +19,6 @@ public class Transaction : Entity<long, string>, IIdentifiable<long>
 
     public DateTime? UpdatedAt { get; private set; }
 
-    [Timestamp]
-    public virtual byte[] Version { get; set; }
-
     private Transaction(
         string transactionId,
         decimal amount,
