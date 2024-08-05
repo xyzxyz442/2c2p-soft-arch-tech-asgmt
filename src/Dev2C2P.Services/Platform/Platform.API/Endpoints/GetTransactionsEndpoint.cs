@@ -12,12 +12,12 @@ namespace Dev2C2P.Services.Platform.API.Endpoints;
 public class GetTransactionsEndpoint
     : EndpointBaseAsync.WithRequest<GetTransactionQueryParameters>.WithResult<IActionResult>
 {
-    private readonly ILogger<UploadEndpoint> _logger;
+    private readonly ILogger<GetTransactionsEndpoint> _logger;
     private readonly IOptionsMonitor<ApplicationSettings> _options;
     private readonly IMediator _mediator;
 
     public GetTransactionsEndpoint(
-        ILogger<UploadEndpoint> logger,
+        ILogger<GetTransactionsEndpoint> logger,
         IOptionsMonitor<ApplicationSettings> options,
         IMediator mediator
     )
