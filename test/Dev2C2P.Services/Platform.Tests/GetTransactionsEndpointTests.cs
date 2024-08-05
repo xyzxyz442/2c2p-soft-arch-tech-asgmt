@@ -1,17 +1,14 @@
 using Dev2C2P.Services.Platform.API.Endpoints;
 using Dev2C2P.Services.Platform.Application;
-using Dev2C2P.Services.Platform.Application.Abstractions;
 using Dev2C2P.Services.Platform.Application.Transactions.Queries;
 using Dev2C2P.Services.Platform.Common;
 using Dev2C2P.Services.Platform.Contracts.Transactions.Dtos;
 using Dev2C2P.Services.Platform.Contracts.Transactions.Endpoints;
-using Dev2C2P.Services.Platform.Domain;
 using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Moq;
 
 namespace Platform.Tests;
 
